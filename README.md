@@ -14,9 +14,11 @@ This program is under MPL 1.1 or LGPL 2.1
 
 在cmd下,输入以下:
 
+```bash
  mkdir build
  cd build
  cmake -G #编译器选项# ..
+```
 
 编译器选项
 
@@ -26,8 +28,9 @@ This program is under MPL 1.1 or LGPL 2.1
  * 64位vs2008:  "Visual Studio 9 2008 Win64"
  * Unix:        "Unix Makefiles"
  
- 1. windows下 cmake后会在build里生成chardet.sln,使用vs打开编译即可
- 2. linux下会生成makefiles,直接make即可
+打开build文件夹
+ * windows下 cmake后会在build里生成chardet.sln,使用vs打开编译即可
+ * linux下会生成makefiles,直接make即可
  
 ## 使用
 
@@ -37,8 +40,7 @@ This program is under MPL 1.1 or LGPL 2.1
 
        int main (void) 
        {
-            char data[100];
-            data = "湖北省武汉市";
+            char data[100] = "湖北省武汉市";
             bool bUtf8 = isUTF8(data);
        }
 ```
@@ -48,8 +50,7 @@ This program is under MPL 1.1 or LGPL 2.1
 
        int main (void) 
        {
-            char data[100];
-            data = "湖北省武汉市";
+            char data[100] = "湖北省武汉市";
             CodeType type;   //编码类型
             float ft;        //准确度
             bool bWithBom;   //是否带Bom头
