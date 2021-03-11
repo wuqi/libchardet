@@ -26,7 +26,7 @@ This program is under MPL 1.1 or LGPL 2.1
  * 64位vs2017:  "Visual Studio 15 2017 Win64"
  * 32位vs2008:  "Visual Studio 9 2008"
  * 64位vs2008:  "Visual Studio 9 2008 Win64"
- * Unix:        "Unix Makefiles"
+ * Unix/Linux:  "Unix Makefiles"
  
 打开build文件夹
  * windows下 cmake后会在build里生成chardet.sln,使用vs打开编译即可
@@ -55,6 +55,6 @@ This program is under MPL 1.1 or LGPL 2.1
             float ft;        //准确度
             bool bWithBom;   //是否带Bom头
             //成功返回 CHARDET_SUCCESS,否则返回其他
-            return detectCode(data, type, ft, b);
+            return detectCode(data, type, ft, bWithBom);
        }
 ```
