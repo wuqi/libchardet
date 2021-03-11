@@ -51,11 +51,11 @@
 #endif
 
 #if defined _WIN32 || defined __CYGWIN__
-	#ifdef HAVE_DLL_EXPORT
+	//#ifdef HAVE_DLL_EXPORT
 		#define CHARDET_API __declspec(dllexport)
-	#else
-		#define CHARDET_API __declspec(dllimport)
-	#endif
+	//#else
+	//	#define CHARDET_API __declspec(dllimport)
+	//#endif
 #else
 	#ifdef HAVE_VISIBILITY
 		#define CHARDET_API __attribute__ ((visibility("default")))
@@ -92,7 +92,19 @@ extern "C" {
 		float confidence;
 		short bom;
 	} DetectObj;
-
+	enum CodeType {
+		Code_UnKnown = 0,
+		Code_UTF8,
+		Code_Latin1,
+		Code_GBK,
+		Code_Big5,
+		Code_EUCJP,
+		Code_EUCKR,
+		Code_SJIS,
+		Code_EUCTW,
+	};
+	CHARDET_API bool isUTF8(const char* input);
+	CHARDET_API short detectCode(const char* input, CodeType&  encodingType, float& confidence, bool& withBom);
 	CHARDET_API char * detect_version (void);
 	CHARDET_API char * detect_uversion (void);
 

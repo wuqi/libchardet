@@ -33,6 +33,9 @@
 #include <prmem.h>
 #include <nscore.h>
 #include <nsUniversalDetector.h>
+#include <vector>
+#include <string>
+#include <algorithm>
 
 class Detector: public nsUniversalDetector {
 	public:
@@ -52,6 +55,63 @@ typedef struct Detect_t {
 } Detect;
 
 #include <chardet.h>
+
+CHARDET_API bool isUTF8(const char * input)
+{
+	CodeType encodingType;
+	float confidence;
+	bool withBom;
+	if (detectCode(input, encodingType, confidence, withBom) == CHARDET_SUCCESS \
+		&& encodingType == Code_UTF8 )
+	{
+		return true;
+	}
+	return false;
+}
+
+CHARDET_API short detectCode(const char * input, CodeType & encodingType, float & confidence, bool & bom)
+{
+	DetectObj *obj;
+	if ((obj = detect_obj_init()) == NULL) {
+		fprintf(stderr, "Memory Allocation failed\n");
+		return CHARDET_MEM_ALLOCATED_FAIL;
+	}
+
+	short  aa = detect_r(input, strlen(input), &obj);
+	switch (detect_r(input, strlen(input), &obj))
+	{
+	case CHARDET_OUT_OF_MEMORY:
+		fprintf(stderr, "On handle processing, occured out of memory\n");
+		detect_obj_free(&obj);
+		return CHARDET_OUT_OF_MEMORY;
+	case CHARDET_NULL_OBJECT:
+		fprintf(stderr,
+			"2st argument of chardet() is must memory allocation "
+			"with detect_obj_init API\n");
+		return CHARDET_NULL_OBJECT;
+	case CHARDET_NO_RESULT:
+		fprintf(stderr, "can't match any code\n");
+		return CHARDET_NULL_OBJECT;
+	}
+	if (!obj) {
+		fprintf(stderr, "can't match any code\n");
+		return CHARDET_NULL_OBJECT;
+	}
+	std::string str[] = { "UTF-8","windows-1252","GB18030","Big5","EUC-JP","EUC-KR","Shift_JIS","EUC-TW" };
+	std::vector<std::string> codeList(str, str + 8);
+	std::vector <std::string>::iterator iElement = std::find(codeList.begin(), codeList.end(), obj->encoding);
+	if (iElement != codeList.end())
+	{
+		int nPosition = std::distance(codeList.begin(), iElement);
+		encodingType = (CodeType)(nPosition + 1);
+	}
+	confidence = obj->confidence;
+	//if (confidence < 0.6) { encodingType = Code_UnKnown; }
+	bom = obj->bom;
+
+	detect_obj_free(&obj);
+	return CHARDET_SUCCESS;
+}
 
 CHARDET_API char * detect_version (void) {
 	return (char *) LIBCHARDET_VERSION;
@@ -119,7 +179,7 @@ CHARDET_API short detect_handledata_r (Detect ** det, const char * buf, size_t b
 	else if ( *obj == NULL )
 		return CHARDET_NULL_OBJECT;
 
-	(*obj)->encoding = (char *) strdup (ret);
+	(*obj)->encoding = (char *) _strdup (ret);
 	(*obj)->confidence = (*det)->detect->getConfidence ();
 	(*obj)->bom = (*det)->detect->getIsBOM ();
 
@@ -155,7 +215,7 @@ CHARDET_API short detect_r (const char *buf, size_t buflen, DetectObj ** obj) {
 	else if ( *obj == NULL )
 		return CHARDET_NULL_OBJECT;
 
-	(*obj)->encoding = (char *) strdup (ret);
+	(*obj)->encoding = (char *) _strdup (ret);
 	(*obj)->confidence = det->getConfidence ();
 	(*obj)->bom = det->getIsBOM ();
 
