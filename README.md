@@ -36,7 +36,7 @@ UTF8和GBK转换实现是使用的[gbk-utf8](https://github.com/lytsing/gbk-utf8
  
 ## 使用
 
-* 判断字符串是否是utf8编码
+### 判断字符串是否是utf8编码
 ```c
        #include <chardet.h>
 
@@ -46,7 +46,7 @@ UTF8和GBK转换实现是使用的[gbk-utf8](https://github.com/lytsing/gbk-utf8
             bool bUtf8 = isUTF8(data);
        }
 ```
-* 检查字符串编码
+### 检查字符串编码
 ```c
        #include <chardet.h>
 
@@ -58,5 +58,24 @@ UTF8和GBK转换实现是使用的[gbk-utf8](https://github.com/lytsing/gbk-utf8
             bool bWithBom;   //是否带Bom头
             //成功返回 CHARDET_SUCCESS,否则返回其他
             return detectCode(data, type, ft, bWithBom);
+       }
+```
+### GBK和utf8编码转换
+```c
+       #include <chardet.h>
+
+       int main (void) 
+       {
+            char data[100] = "湖北省武汉市";
+            bool butf8 = isUTF8(data);
+            char output[100];
+
+            if (butf8) {
+                //utf8转gbk
+                utf8ToGBK(data,output,100);
+            } else {
+                //gbk转utf8
+                gbkToUTF8(data,output,100);
+            }
        }
 ```
