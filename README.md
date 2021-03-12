@@ -7,7 +7,9 @@ Copyright (c) 2019 JoungKyun.Kim <http://oops.org> All rights reserved.
 This program is under MPL 1.1 or LGPL 2.1
 
 ## 说明
-本库根据  [Original code](http://lxr.mozilla.org/seamonkey/source/extensions/universalchardet/) 和 github上的[libchardet](https://github.com/Joungkyun/libchardet) 修改而来,添加了cmake编译和isUTF8等便捷函数,方便使用
+本库根据  [Original code](http://lxr.mozilla.org/seamonkey/source/extensions/universalchardet/) 和 github上的[libchardet](https://github.com/Joungkyun/libchardet) 修改而来,添加了cmake编译和isUTF8和utf8 GBK转换等便捷函数,方便使用
+
+UTF8和GBK转换实现是使用的[gbk-utf8](https://github.com/lytsing/gbk-utf8)项目
 
 ## 编译
 默认编译的是静态库,可以自己修改cmake文件
