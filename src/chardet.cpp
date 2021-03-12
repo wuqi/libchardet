@@ -37,6 +37,9 @@
 #include <string>
 #include <algorithm>
 
+#ifdef _MSC_VER
+#define _strdup strdup
+#endif
 class Detector: public nsUniversalDetector {
 	public:
 		Detector ()
@@ -179,7 +182,7 @@ CHARDET_API short detect_handledata_r (Detect ** det, const char * buf, size_t b
 	else if ( *obj == NULL )
 		return CHARDET_NULL_OBJECT;
 
-	(*obj)->encoding = (char *) _strdup (ret);
+	(*obj)->encoding = (char *)strdup(ret);
 	(*obj)->confidence = (*det)->detect->getConfidence ();
 	(*obj)->bom = (*det)->detect->getIsBOM ();
 
@@ -215,7 +218,7 @@ CHARDET_API short detect_r (const char *buf, size_t buflen, DetectObj ** obj) {
 	else if ( *obj == NULL )
 		return CHARDET_NULL_OBJECT;
 
-	(*obj)->encoding = (char *) _strdup (ret);
+	(*obj)->encoding = (char *)strdup(ret);
 	(*obj)->confidence = det->getConfidence ();
 	(*obj)->bom = det->getIsBOM ();
 
