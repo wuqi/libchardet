@@ -104,6 +104,8 @@ extern "C" {
 		Code_EUCTW,
 	};
 	CHARDET_API bool isUTF8(const char* input);
+	CHARDET_API void utf8ToGBK(const char* src, char* dst, int dstLength);
+	CHARDET_API void gbkToUTF8(const char* src, char* dst, int dstLength);
 	CHARDET_API short detectCode(const char* input, CodeType&  encodingType, float& confidence, bool& withBom);
 	CHARDET_API char * detect_version (void);
 	CHARDET_API char * detect_uversion (void);
