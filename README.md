@@ -11,6 +11,8 @@ This program is under MPL 1.1 or LGPL 2.1
 
 UTF8和GBK转换实现是使用的[gbk-utf8](https://github.com/lytsing/gbk-utf8)项目
 
+字频表 include/tables/GB2312Freq.tab 文件根据地理信息POI的字频调整过,并不是常用字频,需要常用字频请换回GB2312Freq.orig.tab
+
 ## 编译
 默认编译的是静态库,可以自己修改cmake文件
 
